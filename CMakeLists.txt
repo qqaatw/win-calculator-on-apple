@@ -1,4 +1,6 @@
 cmake_minimum_required(VERSION 3.8)
+
+set(PROJECT_NAME WinCalculatorOnApple)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -79,7 +81,7 @@ set(SOURCE_FILES
 )
 
 enable_language("Swift")
-project(WinCalculatorOnApple)
+project(${PROJECT_NAME})
 
 add_library(MSCalculator SHARED ${LIB_SOURCE_FILES} ${LIB_HEADER_FILES})
 target_include_directories(MSCalculator PRIVATE 3rdparty/calculator/src/CalcManager/)
@@ -95,3 +97,9 @@ set_target_properties(Calculator PROPERTIES
   XCODE_ATTRIBUTE_DERIVED_FILE_DIR "${PROJECT_BINARY_DIR}"
   XCODE_ATTRIBUTE_SWIFT_OBJC_BRIDGING_HEADER "${PROJECT_SOURCE_DIR}/Shared/MSCalculator (macOS)-Bridging-Header.h"
 )
+
+# Install dynamic libraries to the bundle
+# https://github.com/ionyshch/cmake-bundle-macos/blob/master/CMakeLists.txt
+set(APPS "\${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}.app")
+install(CODE "include(BundleUtilities)
+    fixup_bundle(\"${APPS}\" \"\" \"${CMAKE_BINARY_DIR}\")")
