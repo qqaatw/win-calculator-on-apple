@@ -2,15 +2,16 @@
 
 A Windows calculator ported to macOS with SwiftUI interface.
 
-<img src="assets/standard_mode.png " alt="standard mode" width="200"/>
-<img src="assets/programmer_mode.png " alt="programmer mode" width="200"/>
+Standard           |  Programmer
+:-----------------:|:-------------------------:
+![](assets/standard_mode.png)  |  ![](assets/programmer_mode.png)
 
 # Build
 
 Clone the project:
 
 ```bash
-git clone --recursive https://github.com/qqaatw/MSCalculator.git
+git clone --recursive https://github.com/qqaatw/win-calculator-on-apple.git
 ```
 
 Install the prerequisite via Homebrew:
