@@ -71,7 +71,7 @@ set(SOURCE_FILES
     Shared/Command.swift
     Shared/ContentView.swift
     Shared/Control.swift
-    Shared/MSCalculatorApp.swift
+    Shared/CalculatorApp.swift
     Shared/MSCalculatorWrapper.h
     Shared/MSCalculatorWrapper.mm
     "Shared/MSCalculator (iOS)-Bridging-Header.h"
@@ -79,7 +79,7 @@ set(SOURCE_FILES
 )
 
 enable_language("Swift")
-project(MSCalculator)
+project(WinCalculatorOnApple)
 
 add_library(MSCalculator SHARED ${LIB_SOURCE_FILES} ${LIB_HEADER_FILES})
 target_include_directories(MSCalculator PRIVATE 3rdparty/calculator/src/CalcManager/)
