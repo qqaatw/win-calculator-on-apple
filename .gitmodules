@@ -1,0 +1,3 @@
+[submodule "3rdparty/calculator"]
+	path = 3rdparty/calculator
+	url = https://github.com/qqaatw/calculator.git
