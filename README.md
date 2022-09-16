@@ -1,6 +1,12 @@
 # Windows Calculator on Apple
 
-A Windows calculator ported to macOS with SwiftUI interface.
+<p align="center">
+  <img src="assets/Calculator.png" style="height:300px"/>
+</p>
+<p align="center">
+    A Windows calculator ported to macOS with SwiftUI interface.
+</p>
+
 
 Standard           |  Programmer
 :-----------------:|:-------------------------:

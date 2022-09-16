@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
 
-set(PROJECT_NAME WinCalculatorOnApple)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -80,26 +79,46 @@ set(SOURCE_FILES
     "Shared/MSCalculator (macOS)-Bridging-Header.h"
 )
 
+set(ICON_NAME "Calculator.icns")
+set(ICON_PATH "assets/Calculator.icns")
+set(COPYRIGHT "2022 qqaatw\nApache License 2.0\nThe icon is licensed under CC BY 4.0")
+
 enable_language("Swift")
-project(${PROJECT_NAME})
+project(WinCalculatorOnApple)
 
 add_library(MSCalculator SHARED ${LIB_SOURCE_FILES} ${LIB_HEADER_FILES})
 target_include_directories(MSCalculator PRIVATE 3rdparty/calculator/src/CalcManager/)
 
-add_executable(Calculator MACOSX_BUNDLE ${SOURCE_FILES})
-target_link_libraries(Calculator PRIVATE MSCalculator)
-target_include_directories(Calculator PRIVATE .)
-target_include_directories(Calculator PRIVATE 3rdparty/calculator/src/)
-target_include_directories(Calculator PRIVATE 3rdparty/calculator/src/CalcManager/)
-set_target_properties(Calculator PROPERTIES
+set_source_files_properties(${ICON_PATH} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${SOURCE_FILES} ${ICON_PATH})
+target_link_libraries(${PROJECT_NAME} PRIVATE MSCalculator)
+target_include_directories(${PROJECT_NAME} PRIVATE .)
+target_include_directories(${PROJECT_NAME} PRIVATE 3rdparty/calculator/src/)
+target_include_directories(${PROJECT_NAME} PRIVATE 3rdparty/calculator/src/CalcManager/)
+set_target_properties(${PROJECT_NAME} PROPERTIES
   Swift_LANGUAGE_VERSION 5.0
   XCODE_ATTRIBUTE_SWIFT_OBJC_INTERFACE_HEADER_NAME "MSCalculatorWrapper.h"
   XCODE_ATTRIBUTE_DERIVED_FILE_DIR "${PROJECT_BINARY_DIR}"
   XCODE_ATTRIBUTE_SWIFT_OBJC_BRIDGING_HEADER "${PROJECT_SOURCE_DIR}/Shared/MSCalculator (macOS)-Bridging-Header.h"
+  MACOSX_BUNDLE_ICON_FILE ${ICON_NAME}
+  MACOSX_BUNDLE_COPYRIGHT ${COPYRIGHT}
 )
+
+install(TARGETS ${PROJECT_NAME}
+    CONFIGURATIONS Debug
+    BUNDLE DESTINATION Debug/ COMPONENT Runtime
+    RUNTIME DESTINATION Debug/ COMPONENT Runtime
+)
+
 
 # Install dynamic libraries to the bundle
 # https://github.com/ionyshch/cmake-bundle-macos/blob/master/CMakeLists.txt
-set(APPS "\${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}.app")
-install(CODE "include(BundleUtilities)
-    fixup_bundle(\"${APPS}\" \"\" \"${CMAKE_BINARY_DIR}\")")
+set(APPS "${CMAKE_BINARY_DIR}/Debug/${PROJECT_NAME}.app")
+
+install(CODE "
+    include(BundleUtilities)
+    fixup_bundle(\"${APPS}\" \"\" \"${CMAKE_BINARY_DIR}/Debug\")"
+)
+
+set(CPACK_GENERATOR "DRAGNDROP")
+include(CPack)
